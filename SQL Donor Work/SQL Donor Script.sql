@@ -68,7 +68,7 @@ FROM `my-new-project-396319.dynamic_dataset.donors`
 WHERE Board_Member = "TRUE"
 ORDER BY total_contribution DESC;
 
--- using a temp table to find the average total contribution
+-- using a subquery to find the average total contribution
 
 SELECT
   Job_Title,
