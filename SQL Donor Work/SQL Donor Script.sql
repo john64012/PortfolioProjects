@@ -68,6 +68,42 @@ FROM `my-new-project-396319.dynamic_dataset.donors`
 WHERE Board_Member = "TRUE"
 ORDER BY total_contribution DESC;
 
+-- using a temp table to find the average total contribution
+
+SELECT
+  Job_Title,
+  full_name,
+  total_contribution,
+  Contribution_2020, 
+  Contribution_2019, 
+  Contribution_2018, 
+  Contribution_2017, 
+  Contribution_2016,
+  (total_contribution/5) as avg_total_contribution
+FROM (
+  SELECT
+    Job_Title,
+    CONCAT(
+      first, 
+      IFNULL(CONCAT(' ', middle), ''), 
+      ' ', 
+      last,
+      IFNULL(CONCAT(', ', Job_Title), '')
+    ) as full_name,
+    (IFNULL(Contribution_2020,0)+
+    IFNULL(Contribution_2019,0)+
+    IFNULL(Contribution_2018,0)+
+    IFNULL(Contribution_2017,0)+
+    IFNULL(Contribution_2016,0)) as total_contribution,
+    Contribution_2020, 
+    Contribution_2019, 
+    Contribution_2018, 
+    Contribution_2017, 
+    Contribution_2016
+  FROM `my-new-project-396319.dynamic_dataset.donors`
+)
+ORDER BY avg_total_contribution DESC;
+
 -- JOIN and ordered by total contribution
 
 SELECT DISTINCT don.First, don.Last,
